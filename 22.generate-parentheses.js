@@ -65,10 +65,8 @@ var generateParenthesis = function (n) {
   const ans = [];
 
   const _gen = (left, right, n, curStr) => {
-      if (left + right === 2 * n) {
-          if (isValid(curStr)) {
-              ans.push(curStr)
-          }
+      if (left === n && right === n) {
+          ans.push(curStr)
           return;
       };
       // 左括号随时可以加，只要不用完，右括号只能数量小于左括号时才能加
@@ -84,18 +82,3 @@ var generateParenthesis = function (n) {
   _gen(0, 0, n, "");
   return ans;
 };
-
-function isValid(s) {
-  let leftCount = 0;
-  for (let i = 0; i < s.length; i++) {
-      if (s[i] === '(') {
-          leftCount++;
-      } else {
-          if (leftCount < 1) {
-              return false;
-          }
-          leftCount--;
-      }
-  }
-  return leftCount === 0;
-}
