@@ -53,3 +53,49 @@ var generateParenthesis = function (n) {
   backtrace([], 0, 0);
   return ans;
 };
+
+/**
+ * @param {number} n
+ * @return {string[]}
+ * 普通递归解法
+ */
+var generateParenthesis = function (n) {
+  if (n < 1) return [];
+
+  const ans = [];
+
+  const _gen = (left, right, n, curStr) => {
+      if (left + right === 2 * n) {
+          if (isValid(curStr)) {
+              ans.push(curStr)
+          }
+          return;
+      };
+      // 左括号随时可以加，只要不用完，右括号只能数量小于左括号时才能加
+      if (left < n) {
+          _gen(left + 1, right, n, curStr + '(');
+      }
+      if (left > right) {
+          _gen(left, right + 1, n, curStr + ')');
+      }
+  }
+
+  // 有2n个格子，放(，)
+  _gen(0, 0, n, "");
+  return ans;
+};
+
+function isValid(s) {
+  let leftCount = 0;
+  for (let i = 0; i < s.length; i++) {
+      if (s[i] === '(') {
+          leftCount++;
+      } else {
+          if (leftCount < 1) {
+              return false;
+          }
+          leftCount--;
+      }
+  }
+  return leftCount === 0;
+}
